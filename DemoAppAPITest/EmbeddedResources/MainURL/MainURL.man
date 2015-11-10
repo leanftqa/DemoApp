@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ID>f0a900a9-3eb4-46bc-9f5d-eab44c8df2db</ID>
+  <Name>MainURL</Name>
+  <Type>REST</Type>
+  <Version>2</Version>
+  <CreationDate>2015-11-09T09:40:11.8645013+02:00</CreationDate>
+  <UpdateDate>2015-11-09T09:44:10.8615013+02:00</UpdateDate>
+  <LoaderID>SignatureResourceHandler</LoaderID>
+  <MetaDataSignatureFile>16ab2738-dbe8-41a9-af11-b634e27f3a7e.xml</MetaDataSignatureFile>
+  <TestResourceId>16ab2738-dbe8-41a9-af11-b634e27f3a7e</TestResourceId>
+  <RepositoryType>TestRepository</RepositoryType>
+  <SignatureCodonId>HP.ST.RestDesignTime.RestServicesV2</SignatureCodonId>
+  <SignatureAddinVersion>12.51.412.0</SignatureAddinVersion>
+  <Properties>
+    <Item>
+      <Key>
+        <string>RepositoryPath</string>
+      </Key>
+      <Value>
+        <string>C:\Temp\DemoAppAPITest\EmbeddedResources</string>
+      </Value>
+    </Item>
+    <Item>
+      <Key>
+        <string>ResourceOrigin</string>
+      </Key>
+      <Value>
+        <string>C:\Temp\DemoAppAPITest\EmbeddedResources\MainURL</string>
+      </Value>
+    </Item>
+    <Item>
+      <Key>
+        <string>PrototypeDbVersion</string>
+      </Key>
+      <Value>
+        <string>12.51.412.0</string>
+      </Value>
+    </Item>
+  </Properties>
+</ResourceManifest>

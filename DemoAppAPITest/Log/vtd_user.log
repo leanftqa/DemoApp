@@ -1,0 +1,27 @@
+2015-11-09 09:45:32,051 [15] INFO  - Step 'Start' : Step 'Start' started
+2015-11-09 09:45:32,173 [15] INFO  - Step 'Start' ended successfully
+2015-11-09 09:45:32,176 [15] INFO  - Step 'Test Flow' : Step 'Test Flow' started
+2015-11-09 09:45:32,181 [15] INFO  - Step 'Iteration 1' : Step 'Iteration 1' started
+2015-11-09 09:45:32,185 [15] INFO  - Step 'Method4' : Step 'Method4' started
+2015-11-09 09:45:32,489 [15] INFO  - Step 'Method4' : Fetching HTTP Url: 'https://api.havenondemand.com/1/api/sync/highlighttext/v1'
+2015-11-09 09:45:35,320 [15] INFO  - Step 'Method4' : Server returned status code: 401
+2015-11-09 09:45:35,324 [15] INFO  - Step 'Method4' : HTTP Raw request:
+2015-11-09 09:45:35,327 [15] INFO  - Step 'Method4' : GET https://api.havenondemand.com/1/api/sync/highlighttext/v1 1.1
+Host: api.havenondemand.com
+Connection: Keep-Alive
+
+2015-11-09 09:45:35,330 [15] INFO  - Step 'Method4' : HTTP Raw response:
+2015-11-09 09:45:35,332 [15] INFO  - Step 'Method4' : HTTP/1.1 401 Unauthorized
+x-content-type-options: nosniff
+Vary: Accept-Encoding
+Connection: keep-alive
+Content-Length: 186
+Content-Type: application/json
+Date: Mon, 09 Nov 2015 07:45:37 GMT
+ETag: "1910617733"
+{"error":12102,"reason":"Authentication failed","detail":[{"authentication":"apikey","description":{"error":4015,"reason":"Missing required parameter(s)","detail":"missing: 'apikey'"}}]}
+2015-11-09 09:45:35,351 [15] INFO  - Step 'Method4' ended successfully
+2015-11-09 09:45:35,356 [15] INFO  - Step 'Iteration 1' ended successfully
+2015-11-09 09:45:35,360 [15] INFO  - Step 'Test Flow' ended successfully
+2015-11-09 09:45:35,363 [15] INFO  - Step 'End' : Step 'End' started
+2015-11-09 09:45:35,379 [15] INFO  - Step 'End' ended successfully
